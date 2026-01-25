@@ -62,16 +62,6 @@
     throw new Error("Agency ID missing");
   }
 </script>
-
-const params = new URLSearchParams(window.location.search);
-const parentAgencyId = params.get("agencyId");
-
-function register() {
-  if (!parentAgencyId) {
-    alert("Invalid registration link");
-    return;
-  }
-
   const data = {
     parentAgencyId,
     subAgencyName: document.getElementById("subAgencyName").value,
