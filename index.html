@@ -1,21 +1,71 @@
-<!DOCTYPE html>
-<html>
-<head>
-  <title>Agency Dashboard</title>
-  <link rel="stylesheet" href="style.css">
-</head>
-<body>
-  <h1>Agency Dashboard</h1>
+const API_URL = "https://script.google.com/macros/s/AKfycbx-iPNbGzLZ-bFxlSbW0BWVMRuPPZc6CDJRYZKnjeAV2upzA2ylbK_iwMyP88HkQZwzmQ/exec";
 
-  <div>
-    <button onclick="showRegister()">Sub-Agency Register</button>
-    <button onclick="showHost()">Add Host</button>
-    <button onclick="showIncome()">Add Income</button>
-    <button onclick="showDashboard()">Dashboard</button>
-  </div>
+function showRegister(){
+  document.getElementById("content").innerHTML = `
+    <h2>Sub-Agency Register</h2>
+    <input id="subAgentId" placeholder="SubAgent ID">
+    <input id="agencyId" placeholder="Agency ID">
+    <input id="name" placeholder="Name">
+    <input id="password" placeholder="Password">
+    <button onclick="registerSubAgent()">Register</button>
+  `;
+}
 
-  <div id="content"></div>
+function registerSubAgent(){
+  const subAgentId = document.getElementById("subAgentId").value;
+  const agencyId = document.getElementById("agencyId").value;
+  const name = document.getElementById("name").value;
+  const password = document.getElementById("password").value;
 
-  <script src="app.js"></script>
-</body>
-</html>
+  fetch(`${API_URL}?action=addSubAgent&subAgentId=${subAgentId}&agencyId=${agencyId}&name=${name}&password=${password}`)
+  .then(res => res.text())
+  .then(data => alert(data));
+}
+
+function showHost(){
+  document.getElementById("content").innerHTML = `
+    <h2>Add Host</h2>
+    <input id="hostId" placeholder="Host ID">
+    <input id="subAgentId2" placeholder="SubAgent ID">
+    <input id="hostName" placeholder="Host Name">
+    <button onclick="addHost()">Add</button>
+  `;
+}
+
+function addHost(){
+  const hostId = document.getElementById("hostId").value;
+  const subAgentId = document.getElementById("subAgentId2").value;
+  const name = document.getElementById("hostName").value;
+
+  fetch(`${API_URL}?action=addHost&hostId=${hostId}&subAgentId=${subAgentId}&name=${name}`)
+  .then(res => res.text())
+  .then(data => alert(data));
+}
+
+function showIncome(){
+  document.getElementById("content").innerHTML = `
+    <h2>Add Income</h2>
+    <input id="incomeId" placeholder="Income ID">
+    <input id="hostId2" placeholder="Host ID">
+    <input id="date" placeholder="Date">
+    <input id="points" placeholder="Points">
+    <input id="income" placeholder="Income">
+    <button onclick="addIncome()">Add</button>
+  `;
+}
+
+function addIncome(){
+  const incomeId = document.getElementById("incomeId").value;
+  const hostId = document.getElementById("hostId2").value;
+  const date = document.getElementById("date").value;
+  const points = document.getElementById("points").value;
+  const income = document.getElementById("income").value;
+
+  fetch(`${API_URL}?action=addIncome&incomeId=${incomeId}&hostId=${hostId}&date=${date}&points=${points}&income=${income}`)
+  .then(res => res.text())
+  .then(data => alert(data));
+}
+
+function showDashboard(){
+  document.getElementById("content").innerHTML = `<h2>Dashboard</h2><div id="dash"></div>`;
+}
