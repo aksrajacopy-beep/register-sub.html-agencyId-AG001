@@ -1,93 +1,90 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <title>Agency Dashboard</title>
-  <link rel="stylesheet" href="style.css">
+  <title>Sub-Agency Registration</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <style>
+    body {
+      background:#0f0f0f;
+      color:#fff;
+      font-family:Arial;
+      display:flex;
+      justify-content:center;
+      align-items:center;
+      height:100vh;
+    }
+    .box {
+      background:#1a1a1a;
+      padding:25px;
+      border-radius:10px;
+      width:100%;
+      max-width:380px;
+    }
+    input,button {
+      width:100%;
+      padding:12px;
+      margin-top:10px;
+      border:none;
+      border-radius:5px;
+    }
+    button {
+      background:#00ffcc;
+      font-weight:bold;
+      cursor:pointer;
+    }
+    .result {
+      margin-top:15px;
+      text-align:center;
+    }
+  </style>
 </head>
 <body>
-  <h1>Agency Dashboard</h1>
 
-  <div>
-    <button onclick="showRegister()">Sub-Agency Register</button>
-    <button onclick="showHost()">Add Host</button>
-    <button onclick="showIncome()">Add Income</button>
-    <button onclick="showDashboard()">Dashboard</button>
-  </div>
+<div class="box">
+  <h2>Sub-Agency Registration</h2>
 
-  <div id="content"></div>
+  <input id="subAgencyName" placeholder="Sub-Agency Name">
+  <input id="ownerName" placeholder="Owner Name">
+  <input id="email" placeholder="Email">
 
-  <script src="const API_URL = "https://script.google.com/macros/s/AKfycbx-iPNbGzLZ-bFxlSbW0BWVMRuPPZc6CDJRYZKnjeAV2upzA2ylbK_iwMyP88HkQZwzmQ/exec";
+  <button onclick="register()">Register</button>
 
-function showRegister(){
-  document.getElementById("content").innerHTML = `
-    <h2>Sub-Agency Register</h2>
-    <input id="subAgentId" placeholder="SubAgent ID">
-    <input id="agencyId" placeholder="Agency ID">
-    <input id="name" placeholder="Name">
-    <input id="password" placeholder="Password">
-    <button onclick="registerSubAgent()">Register</button>
-  `;
+  <div class="result" id="result"></div>
+</div>
+
+<script>
+const params = new URLSearchParams(window.location.search);
+const parentAgencyId = params.get("agencyId");
+
+function register() {
+  if (!parentAgencyId) {
+    alert("Invalid registration link");
+    return;
+  }
+
+  const data = {
+    parentAgencyId,
+    subAgencyName: document.getElementById("subAgencyName").value,
+    ownerName: document.getElementById("ownerName").value,
+    email: document.getElementById("email").value
+  };
+
+  fetch("https://script.google.com/macros/s/AKfycbx-iPNbGzLZ-bFxlSbW0BWVMRuPPZc6CDJRYZKnjeAV2upzA2ylbK_iwMyP88HkQZwzmQ/exec?action=registerSubAgency", {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify(data)
+  })
+  .then(res => res.json())
+  .then(res => {
+    if (res.status === "success") {
+      document.getElementById("result").innerHTML =
+        "✅ Registered<br>Sub-Agency ID: <b>" + res.subAgencyId + "</b>";
+    } else {
+      document.getElementById("result").innerText = "❌ Error";
+    }
+  });
 }
+</script>
 
-function registerSubAgent(){
-  const subAgentId = document.getElementById("subAgentId").value;
-  const agencyId = document.getElementById("agencyId").value;
-  const name = document.getElementById("name").value;
-  const password = document.getElementById("password").value;
-
-  fetch(`${API_URL}?action=addSubAgent&subAgentId=${subAgentId}&agencyId=${agencyId}&name=${name}&password=${password}`)
-  .then(res => res.text())
-  .then(data => alert(data));
-}
-
-function showHost(){
-  document.getElementById("content").innerHTML = `
-    <h2>Add Host</h2>
-    <input id="hostId" placeholder="Host ID">
-    <input id="subAgentId2" placeholder="SubAgent ID">
-    <input id="hostName" placeholder="Host Name">
-    <button onclick="addHost()">Add</button>
-  `;
-}
-
-function addHost(){
-  const hostId = document.getElementById("hostId").value;
-  const subAgentId = document.getElementById("subAgentId2").value;
-  const name = document.getElementById("hostName").value;
-
-  fetch(`${API_URL}?action=addHost&hostId=${hostId}&subAgentId=${subAgentId}&name=${name}`)
-  .then(res => res.text())
-  .then(data => alert(data));
-}
-
-function showIncome(){
-  document.getElementById("content").innerHTML = `
-    <h2>Add Income</h2>
-    <input id="incomeId" placeholder="Income ID">
-    <input id="hostId2" placeholder="Host ID">
-    <input id="date" placeholder="Date">
-    <input id="points" placeholder="Points">
-    <input id="income" placeholder="Income">
-    <button onclick="addIncome()">Add</button>
-  `;
-}
-
-function addIncome(){
-  const incomeId = document.getElementById("incomeId").value;
-  const hostId = document.getElementById("hostId2").value;
-  const date = document.getElementById("date").value;
-  const points = document.getElementById("points").value;
-  const income = document.getElementById("income").value;
-
-  fetch(`${API_URL}?action=addIncome&incomeId=${incomeId}&hostId=${hostId}&date=${date}&points=${points}&income=${income}`)
-  .then(res => res.text())
-  .then(data => alert(data));
-}
-
-function showDashboard(){
-  document.getElementById("content").innerHTML = `<h2>Dashboard</h2><div id="dash"></div>`;
-}
-"></script>
 </body>
 </html>
-
