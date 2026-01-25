@@ -52,16 +52,7 @@
   <div class="result" id="result"></div>
 </div>
 
-<script><script>
-  const params = new URLSearchParams(window.location.search);
-  const agencyId = params.get("agencyId");
-  console.log("Agency ID:", agencyId);
-
-  if (!agencyId) {
-    alert("Invalid registration link");
-    throw new Error("Agency ID missing");
-  }
-</script>
+<script>
   const data = {
     parentAgencyId,
     subAgencyName: document.getElementById("subAgencyName").value,
@@ -88,5 +79,6 @@
 
 </body>
 </html>
+
 
 
