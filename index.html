@@ -1,92 +1,41 @@
-<!DOCTYPE html>
-<html>
-<head>
-  <title>Sub-Agency Registration</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <style>
-    body {
-      background:#0f0f0f;
-      color:#fff;
-      font-family:Arial;
-      display:flex;
-      justify-content:center;
-      align-items:center;
-      height:100vh;
-    }
-    .box {
-      background:#1a1a1a;
-      padding:25px;
-      border-radius:10px;
-      width:100%;
-      max-width:380px;
-    }
-    input,button {
-      width:100%;
-      padding:12px;
-      margin-top:10px;
-      border:none;
-      border-radius:5px;
-    }
-    button {
-      background:#00ffcc;
-      font-weight:bold;
-      cursor:pointer;
-    }
-    .result {
-      margin-top:15px;
-      text-align:center;
-    }
-  </style>
-</head>
-<body>
-
-<div class="box">
-  <h2>Sub-Agency Registration</h2>
-
-  <input id="subAgencyName" placeholder="Sub-Agency Name">
-  <input id="ownerName" placeholder="Owner Name">
-  <input id="email" placeholder="Email">
-
-  <button onclick="register()">Register</button>
-
-  <div class="result" id="result"></div>
-</div>
-
 <script>
-const params = new URLSearchParams(window.location.search);
-const parentAgencyId = params.get("agencyId");
+  // URL se agencyId nikalna
+  const params = new URLSearchParams(window.location.search);
+  const parentAgencyId = params.get("agencyId");
 
-function register() {
   if (!parentAgencyId) {
     alert("Invalid registration link");
-    return;
+    throw new Error("Agency ID missing in URL");
   }
 
-  const data = {
-    parentAgencyId,
-    subAgencyName: document.getElementById("subAgencyName").value,
-    ownerName: document.getElementById("ownerName").value,
-    email: document.getElementById("email").value
-  };
+  function submitForm() {
+    const name = document.getElementById("subAgencyName").value.trim();
+    const owner = document.getElementById("ownerName").value.trim();
+    const email = document.getElementById("email").value.trim();
 
-  fetch("https://script.google.com/macros/s/AKfycbx-iPNbGzLZ-bFxlSbW0BWVMRuPPZc6CDJRYZKnjeAV2upzA2ylbK_iwMyP88HkQZwzmQ/exec", {
-    method: "POST",
-    headers: { "Content-Type": "application/json" },
-    body: JSON.stringify(data)
-  })
-  .then(res => res.json())
-  .then(res => {
-    if (res.status === "success") {
-      document.getElementById("result").innerHTML =
-        "✅ Registered<br>Sub-Agency ID: <b>" + res.subAgencyId + "</b>";
-    } else {
-      document.getElementById("result").innerText = "❌ Error";
+    if (!name || !owner || !email) {
+      alert("❌ Please fill all fields");
+      return;
     }
-  });
-}
+
+    fetch("https://script.google.com/macros/s/AKfycbx-iPNbGzLZ-bFxlSbW0BWVMRuPPZc6CDJRYZKnjeAV2upzA2ylbK_iwMyP88HkQZwzmQ/exec", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        type: "subAgency",
+        parentAgencyId: parentAgencyId,
+        name: name,
+        owner: owner,
+        email: email
+      })
+    })
+    .then(res => res.json())
+    .then(res => {
+      alert("✅ Sub-Agency Registered\nID: " + res.subAgencyId);
+    })
+    .catch(err => {
+      console.error(err);
+      alert("❌ Error! Try again");
+    });
+  }
 </script>
-
-</body>
-</html>
-
-
