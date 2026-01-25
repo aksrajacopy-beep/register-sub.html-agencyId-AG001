@@ -1,4 +1,22 @@
-const API_URL = "https://script.google.com/macros/s/AKfycbx-iPNbGzLZ-bFxlSbW0BWVMRuPPZc6CDJRYZKnjeAV2upzA2ylbK_iwMyP88HkQZwzmQ/exec";
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Agency Dashboard</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <h1>Agency Dashboard</h1>
+
+  <div>
+    <button onclick="showRegister()">Sub-Agency Register</button>
+    <button onclick="showHost()">Add Host</button>
+    <button onclick="showIncome()">Add Income</button>
+    <button onclick="showDashboard()">Dashboard</button>
+  </div>
+
+  <div id="content"></div>
+
+  <script src="const API_URL = "YOUR_GOOGLE_SCRIPT_WEB_APP_URL";
 
 function showRegister(){
   document.getElementById("content").innerHTML = `
@@ -69,4 +87,6 @@ function addIncome(){
 function showDashboard(){
   document.getElementById("content").innerHTML = `<h2>Dashboard</h2><div id="dash"></div>`;
 }
-
+"></script>
+</body>
+</html>
