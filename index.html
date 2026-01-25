@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Agency Registration</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <style>
+    body {
+      margin: 0;
+      background: #0f0f0f;
+      color: #fff;
+      font-family: Arial, sans-serif;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+    }
+
+    .box {
+      background: #1a1a1a;
+      padding: 25px;
+      border-radius: 10px;
+      width: 100%;
+      max-width: 400px;
+      box-shadow: 0 0 15px rgba(0,0,0,0.6);
+    }
+
+    h2 {
+      text-align: center;
+      margin-bottom: 20px;
+    }
+
+    input {
+      width: 100%;
+      padding: 12px;
+      margin-bottom: 12px;
+      border: none;
+      border-radius: 5px;
+      outline: none;
+    }
+
+    button {
+      width: 100%;
+      padding: 12px;
+      background: #00ffcc;
+      border: none;
+      border-radius: 5px;
+      font-weight: bold;
+      cursor: pointer;
+    }
+
+    .result {
+      margin-top: 15px;
+      text-align: center;
+      color: #00ffcc;
+      display: none;
+    }
+  </style>
+</head>
+
+<body>
+
+<div class="box">
+  <h2>Agency Registration</h2>
+
+  <input id="agencyName" placeholder="Agency Name" required>
+  <input id="ownerName" placeholder="Owner Name" required>
+  <input id="email" placeholder="Email" required>
+  <input id="commission" placeholder="Commission %" required>
+
+  <button onclick="submitForm()">Register</button>
+
+  <div class="result" id="result"></div>
+</div>
+
+<script>
+  function submitForm() {
+    const data = {
+      agencyName: document.getElementById("agencyName").value,
+      ownerName: document.getElementById("ownerName").value,
+      email: document.getElementById("email").value,
+      commission: document.getElementById("commission").value
+    };
+
+    fetch("PASTE_YOUR_WEB_APP_URL_HERE", {
+      method: "POST",
+      body: JSON.stringify(data)
+    })
+    .then(res => res.json())
+    .then(res => {
+      document.getElementById("result").style.display = "block";
+      document.getElementById("result").innerHTML =
+        "✅ Registration Successful<br>Agency ID: <b>" + res.agencyId + "</b>";
+    })
+    .catch(() => {
+      alert("Error! Try again");
+    });
+  }
+</script>
+
+</body>
+</html>
