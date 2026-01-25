@@ -69,7 +69,7 @@ function register() {
     email: document.getElementById("email").value
   };
 
-  fetch("PASTE_NEW_WEB_APP_URL?action=registerSubAgency", {
+  fetch("https://script.google.com/macros/s/AKfycbx-iPNbGzLZ-bFxlSbW0BWVMRuPPZc6CDJRYZKnjeAV2upzA2ylbK_iwMyP88HkQZwzmQ/exec?action=registerSubAgency", {
     method: "POST",
     headers: { "Content-Type": "application/json" },
     body: JSON.stringify(data)
@@ -88,3 +88,4 @@ function register() {
 
 </body>
 </html>
+
