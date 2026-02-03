@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html>
+<body>
+<h2>ADMIN DASHBOARD</h2>
+<div id="out"></div>
+
+<script>
+const URL="https://script.google.com/macros/s/AKfycbxPRCrSpDnQAC1vuS5bOu2oiEp-7oPVq_w3QmTzeoiO7Xzxub8XtbQNqe0CsMi1sBzV/exec";
+
+fetch(URL+"/admin").then(r=>r.json()).then(d=>{
+ let h="<h3>AGENCIES</h3><table border=1>";
+ d.agencies.forEach(r=>h+=`<tr><td>${r.join("</td><td>")}</td></tr>`);
+ h+="</table><h3>HOSTS</h3><table border=1>";
+ d.hosts.forEach(r=>h+=`<tr><td>${r.join("</td><td>")}</td></tr>`);
+ out.innerHTML=h+"</table>";
+});
+</script>
+</body>
+</html>
