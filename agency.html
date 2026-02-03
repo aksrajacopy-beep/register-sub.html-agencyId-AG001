@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html>
+<body>
+<h2>AGENCY DASHBOARD</h2>
+
+<h3>Add Host</h3>
+<input id="hid" placeholder="Host ID">
+<input id="hn" placeholder="Host Name">
+<input id="mb" placeholder="Mobile">
+<input id="er" placeholder="Earnings">
+<button onclick="add()">Add</button>
+
+<h3>My Hosts</h3>
+<div id="out"></div>
+
+<script>
+const URL="https://script.google.com/macros/s/AKfycbxPRCrSpDnQAC1vuS5bOu2oiEp-7oPVq_w3QmTzeoiO7Xzxub8XtbQNqe0CsMi1sBzV/exec";
+const agency=localStorage.agency;
+
+function load(){
+ fetch(URL+"/agency?agency="+agency)
+ .then(r=>r.json()).then(d=>{
+  let t="<table border=1><tr><th>ID</th><th>Name</th><th>Mobile</th><th>Earnings</th></tr>";
+  d.hosts.forEach((r,i)=>{
+   if(i>0) t+=`<tr><td>${r[0]}</td><td>${r[2]}</td><td>${r[3]}</td><td>${r[4]}</td></tr>`;
+  });
+  out.innerHTML=t+"</table>";
+ });
+}
+
+function add(){
+ fetch(URL+"/add",{
+  method:"POST",
+  body:JSON.stringify({
+   id:hid.value,
+   agency:agency,
+   name:hn.value,
+   mobile:mb.value,
+   earnings:er.value
+  })
+ }).then(()=>load());
+}
+
+load();
+</script>
+</body>
+</html>
